@@ -490,9 +490,146 @@
     margin-bottom: 16px;
   }
   .important-note strong { color: #3d2d00; }
+
+  /* ── PASSWORD OVERLAY ─────────────────────────────────────── */
+  #pw-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pw-fadein 0.4s ease both;
+  }
+  @keyframes pw-fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  #pw-overlay.pw-hide {
+    animation: pw-fadeout 0.35s ease both;
+    pointer-events: none;
+  }
+  @keyframes pw-fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+  .pw-box {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-top: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 44px 48px 40px;
+    width: 100%;
+    max-width: 420px;
+    margin: 20px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    text-align: center;
+    position: relative;
+  }
+  .pw-box::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .pw-logo {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .pw-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+  .pw-sub {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 32px;
+  }
+  .pw-input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 3px;
+    padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: white;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+    letter-spacing: 0.06em;
+  }
+  .pw-input::placeholder { color: rgba(255,255,255,0.3); }
+  .pw-input:focus { border-color: var(--gold); }
+  .pw-input.pw-shake {
+    animation: pw-shake 0.38s ease;
+    border-color: var(--red);
+  }
+  @keyframes pw-shake {
+    0%,100% { transform: translateX(0); }
+    20%      { transform: translateX(-7px); }
+    40%      { transform: translateX(7px); }
+    60%      { transform: translateX(-5px); }
+    80%      { transform: translateX(5px); }
+  }
+  .pw-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 3px;
+    padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .pw-btn:hover  { background: var(--gold-light); }
+  .pw-btn:active { transform: scale(0.98); }
+  .pw-error {
+    font-size: 12px;
+    color: #e57373;
+    margin-top: 12px;
+    min-height: 18px;
+    transition: opacity 0.2s;
+  }
+  .pw-divider {
+    width: 40px; height: 2px;
+    background: var(--gold);
+    margin: 0 auto 24px;
+    opacity: 0.6;
+  }
 </style>
 </head>
-<body>
+<body style="visibility:hidden;">
+
+<!-- PASSWORD OVERLAY -->
+<div id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">Bennon Group &nbsp;·&nbsp; Příprava na pohovor</div>
+    <div class="pw-title">Chráněný obsah</div>
+    <div class="pw-divider"></div>
+    <div class="pw-sub">Zadejte heslo pro zobrazení dokumentu</div>
+    <input id="pw-input" class="pw-input" type="password" placeholder="Heslo…" autocomplete="off" autofocus>
+    <button id="pw-btn" class="pw-btn">Odemknout</button>
+    <div id="pw-error" class="pw-error"></div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════ -->
 <!--  COVER                                                     -->
@@ -1132,6 +1269,51 @@
   document.querySelectorAll('.qa-block').forEach((block, i) => {
     block.style.animationDelay = (i * 0.05) + 's';
   });
+
+  // ── PASSWORD PROTECTION ───────────────────────────────────
+  (function () {
+    // Password stored as base64 (light obfuscation — not plain text in source)
+    // Actual password: Bennon2026
+    var _h = 'QmVubm9uMjAyNg=='; // btoa('Bennon2026')
+
+    var overlay = document.getElementById('pw-overlay');
+    var input   = document.getElementById('pw-input');
+    var btn     = document.getElementById('pw-btn');
+    var errEl   = document.getElementById('pw-error');
+
+    function unlock() {
+      document.body.style.visibility = 'visible';
+      overlay.classList.add('pw-hide');
+      setTimeout(function () { overlay.remove(); }, 380);
+    }
+
+    function tryPassword() {
+      if (btoa(input.value) === _h) {
+        sessionStorage.setItem('_b_unlocked', '1');
+        unlock();
+      } else {
+        errEl.textContent = 'Nesprávné heslo — zkuste to znovu.';
+        input.classList.remove('pw-shake');
+        void input.offsetWidth; // reflow to restart animation
+        input.classList.add('pw-shake');
+        input.value = '';
+        input.focus();
+        setTimeout(function () { input.classList.remove('pw-shake'); }, 400);
+      }
+    }
+
+    // Check sessionStorage first — skip overlay if already unlocked
+    if (sessionStorage.getItem('_b_unlocked') === '1') {
+      unlock();
+    } else {
+      document.body.style.visibility = 'visible'; // make overlay visible
+    }
+
+    btn.addEventListener('click', tryPassword);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') tryPassword();
+    });
+  })();
 </script>
 </body>
 </html>
