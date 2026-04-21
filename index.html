@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Příprava na pohovor — Export Manager · Bennon Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1a2d42;
+    --navy-light: #243b55;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e9c8;
+    --cream: #faf7f2;
+    --text: #1c1c1c;
+    --text-mid: #3a3a3a;
+    --text-light: #666;
+    --rule: #d4c9b0;
+    --green: #2d6a4f;
+    --green-light: #e8f5ef;
+    --red: #8b2635;
+    --red-light: #fce8eb;
+    --blue: #1e4d7b;
+    --blue-light: #e8f0fa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+
+  /* ── COVER ─────────────────────────────────────────────── */
+  .cover {
+    background: var(--navy);
+    color: white;
+    padding: 56px 60px 48px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -80px;
+    width: 520px; height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 200px;
+    width: 340px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .cover h1 span { color: var(--gold-light); }
+  .cover-sub {
+    font-size: 19px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+  .cover-meta {
+    display: flex; gap: 40px; flex-wrap: wrap;
+  }
+  .cover-meta-item { }
+  .cover-meta-item .label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .cover-meta-item .value {
+    font-size: 14px;
+    color: white;
+    font-weight: 400;
+  }
+  .cover-divider {
+    width: 60px; height: 2px;
+    background: var(--gold);
+    margin: 36px 0;
+  }
+  .cover-tags {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .cover-tag {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold-light);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 5px 14px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ─────────────────────────────────────────────── */
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 60px;
+  }
+  @media (max-width: 700px) {
+    .page { padding: 28px 20px; }
+    .cover { padding: 36px 24px 32px; }
+    .cover h1 { font-size: 36px; }
+  }
+
+  /* ── SECTION HEADER ──────────────────────────────────────── */
+  .section {
+    margin-bottom: 48px;
+    page-break-inside: avoid;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .section-number {
+    background: var(--navy);
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .section-title small {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 3px;
+  }
+
+  /* ── CARDS & BOXES ───────────────────────────────────────── */
+  .card {
+    background: white;
+    border: 1px solid #e0d8cc;
+    border-left: 4px solid var(--navy);
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    border-radius: 0 3px 3px 0;
+  }
+  .card.gold { border-left-color: var(--gold); }
+  .card.green { border-left-color: var(--green); }
+  .card.red   { border-left-color: var(--red); }
+  .card.blue  { border-left-color: var(--blue); }
+
+  .card-title {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .badge {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .badge-hard   { background: #fce8eb; color: var(--red); }
+  .badge-medium { background: #fff3cd; color: #7d5a00; }
+  .badge-easy   { background: var(--green-light); color: var(--green); }
+  .badge-key    { background: var(--navy); color: var(--gold-light); }
+
+  /* ── Q&A ─────────────────────────────────────────────────── */
+  .qa-block {
+    background: white;
+    border: 1px solid #e0d8cc;
+    margin-bottom: 16px;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .qa-question {
+    background: var(--navy);
+    color: white;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    font-weight: 500;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .qa-question .q-num {
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .qa-answer {
+    padding: 16px 18px;
+    border-top: 2px solid var(--gold);
+  }
+  .qa-answer .hint {
+    display: flex; gap: 8px;
+    background: var(--gold-pale);
+    border: 1px solid #dac98a;
+    padding: 10px 14px;
+    border-radius: 2px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: #5a4500;
+  }
+  .qa-answer .hint::before { content: '💡'; flex-shrink: 0; }
+
+  /* ── GRID ────────────────────────────────────────────────── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 650px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 750px) {
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── STAT BOXES ──────────────────────────────────────────── */
+  .stat-box {
+    background: var(--navy);
+    color: white;
+    padding: 20px 18px;
+    text-align: center;
+    border-radius: 3px;
+  }
+  .stat-box .stat-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--gold-light);
+    line-height: 1;
+    display: block;
+  }
+  .stat-box .stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .stat-box.light {
+    background: white;
+    border: 1px solid #e0d8cc;
+  }
+  .stat-box.light .stat-val { color: var(--navy); }
+  .stat-box.light .stat-label { color: var(--text-light); }
+
+  /* ── COMPETITOR TABLE ──────────────────────────────────────── */
+  table.comp {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    background: white;
+  }
+  table.comp th {
+    background: var(--navy);
+    color: var(--gold-light);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    font-size: 11.5px;
+  }
+  table.comp td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #ede7da;
+    vertical-align: top;
+  }
+  table.comp tr:hover td { background: #faf5eb; }
+  table.comp .tag {
+    display: inline-block;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 10.5px;
+    padding: 1px 7px;
+    border-radius: 2px;
+    margin: 1px 2px;
+  }
+
+  /* ── SWOT ────────────────────────────────────────────────── */
+  .swot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid #e0d8cc;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .swot-box { padding: 18px 20px; }
+  .swot-box:nth-child(1) { background: var(--green-light); border-right: 1px solid #b8dcc9; border-bottom: 1px solid #b8dcc9; }
+  .swot-box:nth-child(2) { background: var(--red-light); border-bottom: 1px solid #f3c4c9; }
+  .swot-box:nth-child(3) { background: var(--blue-light); border-right: 1px solid #b8cfe8; }
+  .swot-box:nth-child(4) { background: #fff8ed; }
+  .swot-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .swot-box:nth-child(1) .swot-label { color: var(--green); }
+  .swot-box:nth-child(2) .swot-label { color: var(--red); }
+  .swot-box:nth-child(3) .swot-label { color: var(--blue); }
+  .swot-box:nth-child(4) .swot-label { color: #7d5a00; }
+  .swot-box ul { list-style: none; padding: 0; }
+  .swot-box ul li {
+    font-size: 12.5px;
+    padding: 3px 0 3px 16px;
+    position: relative;
+  }
+  .swot-box ul li::before {
+    content: '→';
+    position: absolute; left: 0;
+    font-size: 11px;
+    opacity: 0.6;
+  }
+
+  /* ── MY QUESTIONS ──────────────────────────────────────── */
+  .my-q {
+    background: white;
+    border: 1px solid #e0d8cc;
+    border-top: 3px solid var(--gold);
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    border-radius: 0 0 3px 3px;
+  }
+  .my-q .q-text {
+    font-weight: 500;
+    color: var(--navy);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .my-q .q-why {
+    font-size: 12px;
+    color: var(--text-light);
+    font-style: italic;
+  }
+
+  /* ── TIMELINE ──────────────────────────────────────────── */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--navy), var(--gold), var(--navy));
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -23px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--navy);
+  }
+  .tl-year {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .tl-text { font-size: 13px; color: var(--text-mid); }
+
+  /* ── PRINT ────────────────────────────────────────────────── */
+  @media print {
+    body { font-size: 12px; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { page-break-inside: avoid; }
+    .qa-block { page-break-inside: avoid; }
+    .stat-box, .swot-box, table.comp th {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page { padding: 32px 40px; }
+  }
+
+  /* ── HIGHLIGHT STRIP ──────────────────────────────────────── */
+  .strip {
+    background: var(--navy);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .strip strong { color: var(--gold-light); }
+
+  /* ── PILL LIST ──────────────────────────────────────────── */
+  .pill-list {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 10px 0;
+  }
+  .pill {
+    background: var(--navy-light);
+    color: white;
+    font-size: 11.5px;
+    padding: 4px 13px;
+    border-radius: 20px;
+  }
+  .pill.gold { background: var(--gold); color: var(--navy); font-weight: 600; }
+
+  /* ── PAGE DIVIDER ──────────────────────────────────────── */
+  .pg-break { page-break-before: always; padding-top: 0; }
+
+  .info-row {
+    display: flex; gap: 8px; margin-bottom: 8px;
+    align-items: flex-start;
+  }
+  .info-row .lbl {
+    min-width: 130px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    font-weight: 600;
+    padding-top: 1px;
+  }
+  .info-row .val { font-size: 13.5px; color: var(--text); }
+
+  hr.light { border: none; border-top: 1px solid var(--rule); margin: 20px 0; }
+
+  .flag { font-size: 15px; }
+  .important-note {
+    background: #fffbeb;
+    border: 1px solid #f5c842;
+    border-left: 4px solid #f5c842;
+    padding: 14px 16px;
+    border-radius: 0 3px 3px 0;
+    font-size: 13px;
+    color: #5a4200;
+    margin-bottom: 16px;
+  }
+  .important-note strong { color: #3d2d00; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  COVER                                                     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-label">Příprava na pracovní pohovor</div>
+  <h1>Export <span>Manager</span></h1>
+  <div class="cover-sub">Bennon Group a.s. &nbsp;·&nbsp; Zlín</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="label">Kandidát</span>
+      <span class="value">Marian Branny</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="label">Datum pohovoru</span>
+      <span class="value">17. dubna 2026</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="label">Lokalita</span>
+      <span class="value">Zlín (Šedesátá 7015)</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="label">Kontakt HR</span>
+      <span class="value">charvatova.katerina@bennon.cz</span>
+    </div>
+  </div>
+  <div class="cover-divider"></div>
+  <div class="cover-tags">
+    <span class="cover-tag">Analýza firmy</span>
+    <span class="cover-tag">Analýza trhu</span>
+    <span class="cover-tag">HR otázky &amp; odpovědi</span>
+    <span class="cover-tag">Moje otázky</span>
+    <span class="cover-tag">SWOT kandidáta</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  SECTION 1 — BENNON COMPANY ANALYSIS                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">
+        Analýza firmy Bennon Group
+        <small>Co musíš vědět o zaměstnavateli</small>
+      </div>
+    </div>
+
+    <div class="strip">
+      <strong>Klíčový fakt:</strong> Bennon Group a.s. (původně Z-Style CZ a.s.) existuje od roku 2009 a vědomě navazuje na <strong>zlínskou obuvnickou tradici Tomáše Bati</strong>. Firemní motto: <em>"Ready for tomorrow."</em> CEO: Robert Kunorza. Distribuuje do <strong>25 zemí světa</strong>.
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2009</div>
+        <div class="tl-text">Vznik pod názvem Z-Style CZ a.s. ve Zlíně — vývoj a distribuce pracovní a bezpečnostní obuvi.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2014</div>
+        <div class="tl-text">Vlastní voděodolná membrána <strong>REGI-TEX</strong> — klíčová technologická inovace, vlastní ochrana před vlhkem.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2017</div>
+        <div class="tl-text">Rozšíření portfolia o pracovní a outdoorové oblečení pod značkou <strong>PROMACHER</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021</div>
+        <div class="tl-text">Otevření vlastní <strong>testovací laboratoře v Zlíně</strong> — rychlejší vývoj, kontrola kvality, plnění norem EN.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2022</div>
+        <div class="tl-text">Rebrand na <strong>BENNON Group a.s.</strong> (1. 1. 2022). Spuštění e-shopu + kamenná prodejna s kavárnou v komplexu Svit.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2024</div>
+        <div class="tl-text">Rozšíření slovenské přítomnosti + dovybavení laboratoře. Expanze na nové trhy.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025</div>
+        <div class="tl-text">Vstup do asociace ABFO (barefoot obuv). Ocenění <strong>"Zaměstnavatel regionu 2025"</strong>. Veletrh A+A Düsseldorf.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2026</div>
+        <div class="tl-text">STYL &amp; KABO Brno (letošní rok) — aktivní prezentace na trhu. Konverze akcií na elektronické (leden 2026).</div>
+      </div>
+    </div>
+
+    <hr class="light">
+
+    <div class="grid-2">
+      <div>
+        <div class="card">
+          <div class="card-title">Produktové portfolio</div>
+          <ul style="list-style:none;padding:0;font-size:13px;">
+            <li>👟 Pracovní obuv (klasifikace O1–O6, S1–S3L, SB)</li>
+            <li>🥾 Outdoor &amp; taktická obuv</li>
+            <li>🦶 Barefoot obuv (nový segment)</li>
+            <li>🧥 Oblečení PROMACHER (bundy, kalhoty, vesty, trička)</li>
+            <li>🧹 CleanSphere (čistící produkty)</li>
+            <li>🦺 Taktická výbava</li>
+          </ul>
+        </div>
+        <div class="card gold">
+          <div class="card-title">Technologie &amp; inovace</div>
+          <ul style="list-style:none;padding:0;font-size:13px;">
+            <li>💧 <strong>REGI-TEX</strong> — vlastní voděodolná membrána (2014)</li>
+            <li>🔬 Vlastní testovací laboratoř (2021, Zlín)</li>
+            <li>📜 Certifikát "Pohodlná obuv – Česká kvalita"</li>
+            <li>🏭 Člen Svazu obuvnického a kožedělného průmyslu ČR</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card green">
+          <div class="card-title">Obchodní kanály &amp; distribuce</div>
+          <ul style="list-style:none;padding:0;font-size:13px;">
+            <li>🌐 <strong>B2B e-commerce platforma</strong> (CZ, EN, PL, DE, HU)</li>
+            <li>🛒 B2C e-shop (bennon.cz)</li>
+            <li>🏪 Kamenná prodejna + kavárna (Zlín Svit)</li>
+            <li>🤝 Distribuční síť ve <strong>25 zemích světa</strong></li>
+            <li>📦 Věrnostní program "Klub Machrů" (5% sleva)</li>
+          </ul>
+        </div>
+        <div class="card blue">
+          <div class="card-title">Klíčové osoby</div>
+          <ul style="list-style:none;padding:0;font-size:13px;">
+            <li>👤 <strong>Robert Kunorza</strong> — CEO</li>
+            <li>📧 kunorza.robert@bennon.cz</li>
+            <li>👤 <strong>Kateřina Štefková</strong> — Import Manager</li>
+            <li>📧 stefkova.katerina@bennon.cz</li>
+            <li>👤 <strong>HR kontakt:</strong> charvatova.katerina@bennon.cz</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr class="light">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--navy);margin-bottom:16px;">Technická analýza webových stránek</h3>
+
+    <div class="grid-2">
+      <div>
+        <div style="background:var(--navy-mid);color:white;padding:10px 14px;font-size:12px;font-weight:600;letter-spacing:0.08em;border-radius:3px 3px 0 0;">
+          🌐 bennon.cz — B2C / Retail
+        </div>
+        <div class="card" style="border-top:none;border-radius:0 0 3px 3px;margin:0;border-left-color:var(--navy-mid)">
+          <div style="font-size:12.5px;">
+            <p style="margin-bottom:8px;"><strong>Zaměření:</strong> Přímý prodej spotřebitelům i firmám, e-shop, věrnostní program Klub Machrů.</p>
+            <p style="margin-bottom:8px;"><strong>Silné stránky:</strong> Přehledná navigace dle kategorií, přítomnost filtrů, doprava zdarma nad 999 Kč, 30denní vrácení, rychlé zpracování 24h.</p>
+            <p style="margin-bottom:8px;"><strong>Content:</strong> Sekce „O nás" s historií firmy a hodnotami, zdůraznění laboratoře a certifikátů.</p>
+            <p style="margin-bottom:4px;"><strong>Chybí / potenciál:</strong> Exportní sekce, jazykové mutace pro B2C (mimo CZ).</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--green);color:white;padding:10px 14px;font-size:12px;font-weight:600;letter-spacing:0.08em;border-radius:3px 3px 0 0;">
+          🏢 bennongroup.cz — B2B / Corporate
+        </div>
+        <div class="card" style="border-top:none;border-radius:0 0 3px 3px;margin:0;border-left-color:var(--green)">
+          <div style="font-size:12.5px;">
+            <p style="margin-bottom:8px;"><strong>Zaměření:</strong> B2B platforma, katalogy, generování nabídek, správa objednávek, technická dokumentace.</p>
+            <p style="margin-bottom:8px;"><strong>Jazyky:</strong> <span class="flag">🇨🇿</span>CZ &nbsp;<span class="flag">🇬🇧</span>EN &nbsp;<span class="flag">🇵🇱</span>PL &nbsp;<span class="flag">🇩🇪</span>DE &nbsp;<span class="flag">🇭🇺</span>HU — jasný signál o prioritních exportních trzích.</p>
+            <p style="margin-bottom:8px;"><strong>Content:</strong> Kompletní historie firmy, inovace, veletrhy, kontakty na klíčové osoby.</p>
+            <p style="margin-bottom:4px;"><strong>Potenciál:</strong> Chybí <span class="flag">🇷🇴</span>RO, <span class="flag">🇸🇰</span>SK mutace na B2B stránce — příležitost pro rozšíření.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="important-note" style="margin-top:16px;">
+      <strong>Postřeh pro pohovor:</strong> B2B platforma podporuje PL, DE, HU jazyky — to přesně odpovídá Tvé CEE zkušenosti z Tonaku. Zmíň, že si webu všiml a vidíš potenciál v rozšíření jazykových mutací (SK, RO, Baltics).
+    </div>
+  </div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  SECTION 2 — MARKET ANALYSIS                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section pg-break">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title">
+        Analýza trhu — Pracovní obuv &amp; OOPP
+        <small>Evropa a Česká republika · 2025–2026</small>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:20px;">
+      <div class="stat-box">
+        <span class="stat-val">$2,7 mld.</span>
+        <div class="stat-label">Evropský trh bezpečnostní obuvi 2025</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val">~6%</span>
+        <div class="stat-label">CAGR do roku 2032 (Evropa)</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val">$4,1 mld.</span>
+        <div class="stat-label">Předpokládaná hodnota trhu 2032</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card">
+          <div class="card-title">Evropský trh — klíčové trendy</div>
+          <ul style="font-size:12.5px;padding-left:16px;line-height:1.8;">
+            <li>Evropa drží <strong>32–35 % globálního trhu</strong> bezpečnostní obuvi</li>
+            <li><strong>Německo</strong> tvoří 32,6 % prodejů v západní Evropě</li>
+            <li>EU PPE Direktiva — povinné normy EN ISO pro stavebnictví, automotive, logistiku</li>
+            <li>Rostoucí poptávka v sektorech: <em>stavebnictví, výroba, logistika, farmacie</em></li>
+            <li>Trend: comfort + safety + design (pracovník odmítá neskladnou obuv)</li>
+            <li>Barefoot segment — rychle rostoucí niche po celé Evropě</li>
+            <li>Digitalizace B2B nákupu — e-katalogy, přímé objednávky online</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card green">
+          <div class="card-title">Český trh — klíčové trendy</div>
+          <ul style="font-size:12.5px;padding-left:16px;line-height:1.8;">
+            <li><strong>2+ miliony pracovníků</strong> v ČR pravidelně používá pracovní oblečení/obuv</li>
+            <li>Přechod od produktového modelu k <strong>servisnímu</strong> (pronájem, praní, údržba)</li>
+            <li>Před 5 lety 100 % firem kupovalo — dnes <strong>10 %+ firem obuv pronajímá</strong></li>
+            <li>ČR výrazně zaostává za ZE v servisním modelu — <strong>růstový potenciál</strong></li>
+            <li>Veřejné zakázky — státní sektor (armáda, záchranné složky) = stabilní poptávka</li>
+            <li>Národní výroba jako konkurenční výhoda (certifikát Česká kvalita)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr class="light">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--navy);margin-bottom:14px;">Hlavní konkurenti Bennonu na trhu</h3>
+
+    <table class="comp">
+      <thead>
+        <tr>
+          <th>Značka</th>
+          <th>Původ</th>
+          <th>Segment</th>
+          <th>Silná stránka</th>
+          <th>Bennon vs. konkurent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Uvex</strong></td>
+          <td>🇩🇪 Německo</td>
+          <td><span class="tag">Premium</span> <span class="tag">B2B</span></td>
+          <td>Brand recognition, distribuce pan-EU</td>
+          <td>Bennon cenově dostupnější, česká kvalita</td>
+        </tr>
+        <tr>
+          <td><strong>Engelbert Strauss</strong></td>
+          <td>🇩🇪 Německo</td>
+          <td><span class="tag">B2B</span> <span class="tag">Workwear</span></td>
+          <td>Komplexní workwear (obuv + oblečení)</td>
+          <td>Podobný model — Bennon má REGI-TEX + Promacher</td>
+        </tr>
+        <tr>
+          <td><strong>Puma Safety</strong></td>
+          <td>🇩🇪 Německo</td>
+          <td><span class="tag">Sport-safety</span></td>
+          <td>Sportovní design, brand lifestyle</td>
+          <td>Bennon silnější v CEE, vlastní technologie</td>
+        </tr>
+        <tr>
+          <td><strong>Protektor</strong></td>
+          <td>🇨🇿 Česko</td>
+          <td><span class="tag">B2B</span> <span class="tag">State</span></td>
+          <td>Historická přítomnost, státní zakázky</td>
+          <td>Bennon moderní design + inovace</td>
+        </tr>
+        <tr>
+          <td><strong>Dunlop / Honeywell</strong></td>
+          <td>🇬🇧 / 🇺🇸</td>
+          <td><span class="tag">Industrial</span> <span class="tag">Heavy</span></td>
+          <td>Průmyslové segmenty, chemická odolnost</td>
+          <td>Bennon silnější v každodenní pracovní obuvi</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="important-note" style="margin-top:14px;">
+      <strong>Příležitost pro Bennon:</strong> CEE trh (PL, SK, HU, RO, Baltics) je podpenetrovaný prémiovou českou pracovní obuví. Přesně Tvé teritorium z Tonaku.
+    </div>
+  </div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  SECTION 3 — SWOT KANDIDÁTA                               -->
+<!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title">
+        SWOT analýza Tvého profilu
+        <small>Silné stránky, slabiny, příležitosti a hrozby pro tuto pozici</small>
+      </div>
+    </div>
+
+    <div class="swot">
+      <div class="swot-box">
+        <div class="swot-label">✅ Silné stránky</div>
+        <ul>
+          <li>15+ let B2B obchodu a exportu v Evropě</li>
+          <li>Přesná shoda teritoria: PL, SK, HU, RO, Baltics</li>
+          <li>Polština jako mateřský jazyk (→ klíčový trh PL)</li>
+          <li>Vlastní kontaktní síť 80+ partnerů (CEE)</li>
+          <li>Zkušenosti se státními zakázkami (MO ČR, ~35 mil. Kč)</li>
+          <li>Znalost celého obchodního cyklu: akvizice → kontrakt → realizace</li>
+          <li>Zkušenost s B2B i retail / e-commerce</li>
+        </ul>
+      </div>
+      <div class="swot-box">
+        <div class="swot-label">⚠️ Slabiny (buď připraven)</div>
+        <ul>
+          <li>Zkušenost v textilu (čepice), nikoli ve footwear — přiznej otevřeně</li>
+          <li>Němčina jen A2 — limitace pro DACH trhy</li>
+          <li>Chybí přímá výrobní znalost obuvi (normy EN ISO)</li>
+          <li>Nový Jičín → Zlín: logistika (denní dojíždění / přestěhování?)</li>
+        </ul>
+      </div>
+      <div class="swot-box">
+        <div class="swot-label">🚀 Příležitosti</div>
+        <ul>
+          <li>Bennon roste — distribuce v 25 zemích, chce dál</li>
+          <li>B2B platforma v PL+HU — Ty jazyky ovládáš</li>
+          <li>Barefoot a taktický segment — rychle rostoucí niche</li>
+          <li>Zkušenost s veřejnými zakázkami → nové státní segmenty</li>
+          <li>CEE e-commerce B2B roste — Tvé e-commerce zkušenosti</li>
+        </ul>
+      </div>
+      <div class="swot-box">
+        <div class="swot-label">🔻 Hrozby (buď připraven)</div>
+        <ul>
+          <li>Silná kandidatura jiných: prodejci přímo z obuvnického oboru</li>
+          <li>Platové očekávání vs. realita menšího výrobce</li>
+          <li>Délka onboardingu bez znalosti produktu</li>
+          <li>Bennon roste rychle — vysoké nároky na výsledky</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  SECTION 4 — HR OTÁZKY                                    -->
+<!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section pg-break">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title">
+        Očekávané HR otázky &amp; doporučené odpovědi
+        <small>Připravené odpovědi přizpůsobené tvému profilu</small>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">1</span>
+        <div>Proč právě Bennon? Proč chcete odejít z Tonaku?
+          <span class="badge badge-hard" style="margin-left:8px;">Klíčová</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"V Tonaku jsem strávil 7 let a odvedly jsme skvělou práci — vybudoval jsem exportní síť přes 80 partnerů v CEE a realizoval zakázky za desítky milionů. Ale textilní průmysl naráží na strukturální stropy a já cítím, že mám kapacitu na víc. Bennon mě zaujal proto, že je to dynamicky rostoucí česká značka s vlastní technologií REGI-TEX, vlastní laboratoří a jasnou exportní ambicí. Distribuujete do 25 zemí, ale vidím obrovský potenciál právě v CEE zemích, kde se pohybuji 7 let — PL, SK, HU, RO, Baltics. To jsou trhy, kde mám kontakty a vím, jak fungují."</em></p>
+        <div class="hint">Zdůrazni ambici Bennonu a shodu s Tvým teritoriem. Nepomlouvej Tonak.</div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">2</span>
+        <div>Popište Vaše největší exportní úspěch.
+          <span class="badge badge-medium" style="margin-left:8px;">Důležitá</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"Nejvýznamnějším úspěchem je rámcová dohoda s Ministerstvem obrany ČR, kterou jsem vyjednal a realizoval v období 2019–2025. Celkový objem dosáhl 35,4 milionu korun. Byla to kombinace pochopení procesu veřejných zakázek podle ZZVZ, budování důvěry s nákupčími a schopnosti nabídnout produkt přesně na míru požadavkům armády. Paralelně jsem vybudoval distribuční síť v CEE — například polský trh jsem otevřel prakticky od nuly a dnes je to jeden z objemově nejvýznamnějších trhů portfolia."</em></p>
+        <div class="hint">Konkrétní čísla = důvěryhodnost. Vždy mluv v hodnotách — 35 mil. Kč je silný argument.</div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">3</span>
+        <div>Jak byste postupoval při vstupu na nový exportní trh?
+          <span class="badge badge-hard" style="margin-left:8px;">Klíčová</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"Vždy začínám desk researchem — analýza regulatorního prostředí, OOPP normy, přímí konkurenti, cenové hladiny, hlavní distributoři. Pak oslovuji potenciální distributory, ideálně přes veletrhy nebo přímé kontakty. V případě pracovní obuvi bych v první fázi zkoumal katalogy e-shopů a veřejných zakázek — to hodně napovídá o poptávce. Pro Bennon konkrétně vidím potenciál v Rumunsku a pobaltských státech, kde je silná výrobní základna a nízká penetrace kvalitní české obuvi."</em></p>
+        <div class="hint">Zmíň konkrétní trhy, ne obecná slova. Ukáže to, že jsi se připravil.</div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">4</span>
+        <div>Nemáte zkušenosti přímo s obuví — jak to plánujete kompenzovat?
+          <span class="badge badge-hard" style="margin-left:8px;">Slabina — buď připraven</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"To je férová otázka. Pracoval jsem v textilním průmyslu, ne přímo ve footwear. Ale obchodní principy, regulace OOPP a struktura B2B distribuce jsou velmi podobné. Navíc normy EN ISO 20345 pro bezpečnostní obuv se naučím rychle — mám zkušenost s certifikacemi v textilu. Mnohem těžší je vybudovat vztahy se zákazníky a poznat CEE trh — a to Bennonu přináším od prvního dne. Za prvních 30 dní bych absolvoval kompletní produktový onboarding, navštívil laboratoř a sešel se s Vašimi klíčovými distributory v terénu."</em></p>
+        <div class="hint">Neomlouvej se — přeformuluj jako "přináším to těžší, produkt se doučím". A nabídni 30denní plán.</div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">5</span>
+        <div>Jak pracujete s CRM a datově řízeným obchodem?
+          <span class="badge badge-medium" style="margin-left:8px;">Důležitá</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"V Tonaku jsem pracoval s ERP systémem pro správu objednávek a reportingem v Excelu. Systematicky jsem sledoval obchodní výsledky po zemích a produktových kategoriích. CRM nástroje jako Salesforce nebo HubSpot jsem používal v menším rozsahu, ale filozofii datově řízeného obchodu — pipeline management, win/loss analýza, customer lifetime value — plně sdílím. Jsem připraven rychle adoptovat jakýkoliv systém, který Bennon používá."</em></p>
+        <div class="hint">Buď upřímný, ale ukaž ochotu se učit. Přidej, co konkrétně analysuješ.</div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">6</span>
+        <div>Jak zvládáte situaci, kdy zákazník neplní závazky nebo nastane spor?
+          <span class="badge badge-medium" style="margin-left:8px;">Behaviorální</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"Mám přímou zkušenost — zastupoval jsem Tonak v mezinárodním obchodním sporu s polským partnerem. Koordinoval jsem komunikaci s právníky i protistranou, aktivně jsem využíval polštinu i angličtinu. Klíčové je uchovat věcný tón, dokumentovat vše písemně a hledat řešení win-win ještě před eskalací. Spor v Polsku jsme vyřešili dohodou bez soudního řízení — ušetřilo to čas i náklady oběma stranám."</em></p>
+        <div class="hint">Tento příklad máš v CV — skvělá přímá reference. Klidně ho zmíni jako projekt.</div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">7</span>
+        <div>Jaká jsou Vaše platová očekávání?
+          <span class="badge badge-medium" style="margin-left:8px;">Standardní</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"Na základě mých zkušeností a profilu pozice očekávám základní mzdu v rozsahu [DOPLŇ ČÍSLO] Kč + variabilní složku vázanou na exportní výsledky. Jsem otevřený diskuzi — záleží mi také na prostoru pro profesní růst a celkovém balíčku. Co je Váš standardní model odměňování pro tuto pozici?"</em></p>
+        <div class="hint">Otáčej otázku zpět — zjisti jejich sazby dřív, než řekneš číslo. Senior Export Manager v CZ = 70–120 tis. Kč/měsíc (záleží na firmě).</div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">8</span>
+        <div>Kde se vidíte za 3–5 let?
+          <span class="badge badge-easy" style="margin-left:8px;">Standardní</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"Vidím se jako klíčový pilíř exportní strategie Bennonu. Za 3 roky chci mít vybudovanou funkční distribuční síť v minimálně 5 nových CEE trzích a být tím člověkem, na koho se Bennon spolehne při vstupu na nová teritoria. Jestli firma poroste tak, jak věřím, vidím se rád v roli, kde mám zodpovědnost za celý exportní tým."</em></p>
+        <div class="hint">Ukaž loajalitu a ambici — ale v rámci Bennonu, ne "budu šéf do 2 let".</div>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">9</span>
+        <div>Jak byste se popsal v jedné větě? / Jaká je Vaše nejsilnější vlastnost?
+          <span class="badge badge-easy" style="margin-left:8px;">Osobnostní</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"Jsem systematický hráč, který dokončuje to, co začne — ať už jde o víceleté státní kontrakty za desítky milionů nebo budování distribuční sítě od nuly. Triatlonista zvyklý na dlouhé disciplíny — a v obchodě to vnímám stejně: vytrvalost a konzistentnost vede k výsledkům."</em></p>
+        <div class="hint">Propojení sportu (triatlon) s profesní charakteristikou je velmi zapamovatelné.</div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="qa-block">
+      <div class="qa-question">
+        <span class="q-num">10</span>
+        <div>Jak zvládáte jazykovou bariéru — máte jen B2 angličtinu?
+          <span class="badge badge-medium" style="margin-left:8px;">Potenciální slabina</span>
+        </div>
+      </div>
+      <div class="qa-answer">
+        <p><em>"Angličtina B2 znamená, že plně vedou obchodní jednání, vyjednávám smlouvy a píši odbornou korespondenci. Navíc mám mateřskou polštinu, která mi otevírá přímou komunikaci s jedním z největších CEE trhů — žádný překladač, žádné nuance ztracené v překladu. Němčinu rozvíjím a na A-trhy bych iniciálně spolupracoval s rodilým mluvčím, nebo navrhl anglickou komunikaci — což je ve firemním B2B standardem."</em></p>
+        <div class="hint">Přeformuluj slabinu: polština jako mateřský jazyk je pro PL trh silnější výhoda než němčina pro DE.</div>
+      </div>
+    </div>
+  </div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  SECTION 5 — MÉ OTÁZKY                                    -->
+<!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section pg-break">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title">
+        Otázky, které bys měl položit TY
+        <small>Ukáže zájem, připravenost a strategické myšlení</small>
+      </div>
+    </div>
+
+    <div class="strip" style="margin-bottom:20px;">
+      Dobré otázky jsou stejně důležité jako dobré odpovědi. Ukáží, že ses připravil a myslíš strategicky — ne jen "chci práci".
+    </div>
+
+    <h4 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600;">O exportní strategii &amp; teritoriích</h4>
+
+    <div class="my-q">
+      <div class="q-text">Na Vašem B2B portálu vidím jazykové mutace v češtině, angličtině, polštině, němčině a maďarštině. Jsou to Vaše primární exportní trhy? Kde vnímáte největší nevyužitý potenciál?</div>
+      <div class="q-why">→ Ukazuje, že jsi prostudoval web. Zároveň zjistíš, kam se Bennon chce rozšiřovat.</div>
+    </div>
+
+    <div class="my-q">
+      <div class="q-text">Distribuujete do 25 zemí — jaký je aktuální poměr přímého exportu vs. distributoři? A jaký model preferujete pro nová teritoria?</div>
+      <div class="q-why">→ Klíčové pro pochopení obchodního modelu. Distributor vs. přímý export = velmi odlišná práce.</div>
+    </div>
+
+    <div class="my-q">
+      <div class="q-text">Kde v CEE regionu cítíte největší mezeru ve vaší distribuci, kterou by Export Manager měl prioritně řešit?</div>
+      <div class="q-why">→ Přímá otázka na prioritu práce — zjistíš, co od Tebe reálně čekají.</div>
+    </div>
+
+    <h4 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;margin-top:20px;font-weight:600;">O produktu &amp; trhu</h4>
+
+    <div class="my-q">
+      <div class="q-text">Technologie REGI-TEX je Vaše vlastní membrána — jak ji komunikujete vůči distributorům a na trhu? Vnímají ji zákazníci jako diferenciátor od Gore-Texu nebo jiných membrán?</div>
+      <div class="q-why">→ Ukáže zájem o produkt a schopnost argumentovat technologií v prodeji.</div>
+    </div>
+
+    <div class="my-q">
+      <div class="q-text">Barefoot obuv je rychle rostoucí segment — plánujete ho aktivněji rozvíjet exportně, nebo je primárně B2C záležitost?</div>
+      <div class="q-why">→ Ukazuje znalost trendů na trhu a zájem o strategii.</div>
+    </div>
+
+    <h4 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;margin-top:20px;font-weight:600;">O pozici &amp; onboardingu</h4>
+
+    <div class="my-q">
+      <div class="q-text">Jak vypadá tým, do kterého bych nastoupil? Budu mít podporu (asistentka, sales support, marketing) nebo jde o samostatnou roli?</div>
+      <div class="q-why">→ Klíčové pro reálné nastavení očekávání a rychlost výsledků.</div>
+    </div>
+
+    <div class="my-q">
+      <div class="q-text">Jak dlouho trvá standardní onboarding v Bennonu? Navštívím terén se stávajícím obchodníkem, nebo budu rovnou samostatně na trhu?</div>
+      <div class="q-why">→ Ukazuje, že přemýšlíš o startu systematicky, ne že jen "nastoupíš".</div>
+    </div>
+
+    <div class="my-q">
+      <div class="q-text">Jakých výsledků byste si přáli, abych za prvních 6 měsíců dosáhl? Co by pro Vás bylo jasným signálem "správná volba"?</div>
+      <div class="q-why">→ Zlatá otázka — zjistíš KPIs, lépe odpovíš na vize a zároveň ukážeš orientaci na výsledky.</div>
+    </div>
+
+    <h4 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;margin-top:20px;font-weight:600;">O firmě &amp; kultuře</h4>
+
+    <div class="my-q">
+      <div class="q-text">Vidím, že Bennon získal ocenění "Zaměstnavatel regionu 2025" — co konkrétně za tímto oceněním stojí z Vašeho pohledu?</div>
+      <div class="q-why">→ Ukazuje, že ses opravdu připravil a znáš aktuální dění ve firmě.</div>
+    </div>
+
+    <div class="my-q">
+      <div class="q-text">Jaký je Váš plán s veletrhem A+A Düsseldorf 2025, na kterém jste byli? Zúčastníme se dalšího ročníku a budu se jej moci zúčastnit?</div>
+      <div class="q-why">→ A+A je klíčový OOPP veletrh Evropy — zájem o aktivní účast je silný signál.</div>
+    </div>
+  </div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  SECTION 6 — CHEAT SHEET                                  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title">
+        Rychlý cheat sheet — klíčová fakta nazpaměť
+        <small>Tato čísla a fakta zní profesionálně, když je zmíníš bez papíru</small>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card gold">
+          <div class="card-title">O Bennonu — fakta nazpaměť</div>
+          <ul style="font-size:13px;list-style:none;padding:0;line-height:2;">
+            <li>📅 Rok vzniku: <strong>2009</strong> (jako Z-Style CZ)</li>
+            <li>🏙️ Sídlo: <strong>Zlín, Šedesátá 7015</strong></li>
+            <li>🌍 Distribuce: <strong>25 zemí světa</strong></li>
+            <li>💧 Vlastní membrána: <strong>REGI-TEX (2014)</strong></li>
+            <li>🔬 Testovací lab: <strong>Zlín (2021)</strong></li>
+            <li>🧥 Clothing brand: <strong>PROMACHER (od 2017)</strong></li>
+            <li>👟 Nový segment: <strong>Barefoot obuv</strong></li>
+            <li>🏆 Ocenění: <strong>Zaměstnavatel regionu 2025</strong></li>
+            <li>🌐 B2B jazyky: <strong>CZ, EN, PL, DE, HU</strong></li>
+            <li>👤 CEO: <strong>Robert Kunorza</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">Tvé klíčové argumenty — nazpaměť</div>
+          <ul style="font-size:13px;list-style:none;padding:0;line-height:2;">
+            <li>💼 <strong>15+ let</strong> B2B export a KAM</li>
+            <li>🌍 CEE síť: <strong>80+ partnerů</strong> (PL, SK, HU, RO, Baltics)</li>
+            <li>🪖 MO ČR kontrakt: <strong>~35,4 mil. Kč</strong></li>
+            <li>🏰 Hradní stráž + VKPR: <strong>~6,1 mil. Kč</strong></li>
+            <li>🇵🇱 Polština: <strong>mateřský jazyk</strong> (klíč k PL trhu)</li>
+            <li>🇬🇧 Angličtina: <strong>B2 / C1 pracovní</strong></li>
+            <li>⚖️ Zkušenost: <strong>mezinárodní obchodní spor (PL)</strong></li>
+            <li>🏪 Retail: <strong>3 kamenné prodejny otevřeny od nuly</strong></li>
+            <li>🎓 Bc. <strong>Manažerská informatika</strong>, SLU Opava</li>
+            <li>🏃 Sport: <strong>triatlon</strong> = disciplína a vytrvalost</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="important-note" style="margin-top:16px;">
+      <strong>Finální tip:</strong> Přijď 10 minut dříve. Prohlédni si prodejnu / recepci firmy — zjistíš produkty, design, merchandising. Zmíň to v rozhovoru: <em>"Cestou jsem si prohlédl Vaši prodejnu — zaujal mě XY."</em> Trvá 2 minuty, ale udělá dojem přichystaného kandidáta.
+    </div>
+
+    <div style="text-align:center;margin-top:36px;padding-top:24px;border-top:1px solid var(--rule);">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);font-weight:600;">Hodně štěstí, Mariáne. 🤝</div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:6px;">Připraveno pro pohovor · 17. dubna 2026 · Bennon Group a.s., Zlín</div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  // Simple print-ready check
+  document.querySelectorAll('.qa-block').forEach((block, i) => {
+    block.style.animationDelay = (i * 0.05) + 's';
+  });
+</script>
+</body>
+</html>
